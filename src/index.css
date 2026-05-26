@@ -13,6 +13,14 @@
   }
   body {
     @apply bg-zinc-50 font-sans text-zinc-900 antialiased dark:bg-zinc-950 dark:text-zinc-100;
+    /* 한국어: 음절이 아니라 단어/구 단위로 줄바꿈 */
+    word-break: keep-all;
+  }
+  h1,
+  h2,
+  h3 {
+    /* 제목 줄바꿈을 균형 있게 (특히 모바일에서 어색한 분리 방지) */
+    text-wrap: balance;
   }
   ::selection {
     @apply bg-brand-500/30;
