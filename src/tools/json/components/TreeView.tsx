@@ -6,7 +6,7 @@ const CHUNK = 100
 const INDENT = 14
 
 function Leaf({ value }: { value: unknown }) {
-  if (value === null) return <span className="italic text-zinc-400">null</span>
+  if (value === null) return <span className="italic text-zinc-500 dark:text-zinc-400">null</span>
   switch (typeof value) {
     case 'string':
       return <span className="whitespace-pre-wrap break-all text-emerald-600 dark:text-emerald-400">"{value}"</span>
@@ -29,12 +29,13 @@ function PropLabel({ name }: { name: string }) {
 }
 
 function IndexLabel({ i }: { i: number }) {
-  return <span className="mr-1 shrink-0 text-zinc-400">{i}:</span>
+  return <span className="mr-1 shrink-0 text-zinc-500 dark:text-zinc-400">{i}:</span>
 }
 
 function Caret({ open }: { open: boolean }) {
   return (
     <span
+      aria-hidden="true"
       className={`mr-1 inline-block w-3 shrink-0 select-none text-zinc-400 transition-transform ${open ? 'rotate-90' : ''}`}
     >
       ▶
@@ -91,7 +92,8 @@ const TreeNode = memo(function TreeNode({ label, value, depth, initiallyOpen }: 
         className="flex cursor-pointer items-center rounded py-0.5 hover:bg-zinc-100 dark:hover:bg-zinc-800/60"
         style={{ paddingLeft: depth * INDENT }}
         onClick={() => setOpen((o) => !o)}
-        role="button"
+        role="treeitem"
+        aria-expanded={open}
         tabIndex={0}
         onKeyDown={(e) => {
           if (e.key === 'Enter' || e.key === ' ') {
@@ -124,7 +126,7 @@ const TreeNode = memo(function TreeNode({ label, value, depth, initiallyOpen }: 
             <button
               type="button"
               onClick={() => setVisible((v) => Math.min(count, v + CHUNK))}
-              className="my-0.5 rounded px-2 py-0.5 text-xs font-medium text-indigo-600 hover:bg-indigo-50 dark:text-indigo-400 dark:hover:bg-indigo-950"
+              className="my-0.5 rounded px-2 py-0.5 text-xs font-medium text-brand-600 hover:bg-brand-50 dark:text-brand-400 dark:hover:bg-brand-950"
               style={{ marginLeft: (depth + 1) * INDENT + 16 }}
             >
               + {(count - visible).toLocaleString()}개 더 보기
@@ -141,7 +143,7 @@ const TreeNode = memo(function TreeNode({ label, value, depth, initiallyOpen }: 
 
 export function TreeView({ data }: { data: unknown }) {
   return (
-    <div className="font-mono text-[13px] leading-relaxed">
+    <div className="font-mono text-[13px] leading-relaxed" role="tree" aria-label="JSON 트리">
       <TreeNode value={data} depth={0} initiallyOpen />
     </div>
   )

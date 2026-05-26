@@ -43,6 +43,14 @@ type Mode = 'format' | 'diff'
 
 const encoder = new TextEncoder()
 
+// 이 크기를 넘으면 입력마다 자동 검사(워커 왕복)를 멈추고 수동 검사 버튼을 제공한다.
+const LARGE_INPUT_BYTES = 5 * 1024 * 1024
+
+const TABS: { value: Mode; label: string; icon: React.ReactNode }[] = [
+  { value: 'format', label: '포맷 / 검사', icon: <WandIcon className="h-4 w-4" /> },
+  { value: 'diff', label: '비교 (Diff)', icon: <DiffIcon className="h-4 w-4" /> },
+]
+
 export default function JsonToolPage() {
   const [mode, setMode] = useState<Mode>('format')
 
@@ -62,38 +70,65 @@ export default function JsonToolPage() {
       </header>
 
       {/* 모드 탭 */}
-      <div className="inline-flex rounded-lg border border-zinc-200 bg-white p-1 dark:border-zinc-800 dark:bg-zinc-900">
-        <TabButton active={mode === 'format'} onClick={() => setMode('format')} icon={<WandIcon className="h-4 w-4" />}>
-          포맷 / 검사
-        </TabButton>
-        <TabButton active={mode === 'diff'} onClick={() => setMode('diff')} icon={<DiffIcon className="h-4 w-4" />}>
-          비교 (Diff)
-        </TabButton>
+      <div
+        role="tablist"
+        aria-label="JSON 도구 모드"
+        className="inline-flex rounded-lg border border-zinc-200 bg-white p-1 dark:border-zinc-800 dark:bg-zinc-900"
+        onKeyDown={(e) => {
+          if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+            e.preventDefault()
+            setMode((m) => (m === 'format' ? 'diff' : 'format'))
+          }
+        }}
+      >
+        {TABS.map((t) => (
+          <TabButton
+            key={t.value}
+            selected={mode === t.value}
+            id={`tab-${t.value}`}
+            controls={`panel-${t.value}`}
+            icon={t.icon}
+            onSelect={() => setMode(t.value)}
+          >
+            {t.label}
+          </TabButton>
+        ))}
       </div>
 
-      {mode === 'format' ? <FormatMode /> : <DiffMode />}
+      <div role="tabpanel" id={`panel-${mode}`} aria-labelledby={`tab-${mode}`}>
+        {mode === 'format' ? <FormatMode /> : <DiffMode />}
+      </div>
     </div>
   )
 }
 
 function TabButton({
-  active,
-  onClick,
+  selected,
+  id,
+  controls,
+  onSelect,
   icon,
   children,
 }: {
-  active: boolean
-  onClick: () => void
+  selected: boolean
+  id: string
+  controls: string
+  onSelect: () => void
   icon: React.ReactNode
   children: React.ReactNode
 }) {
   return (
     <button
       type="button"
-      onClick={onClick}
-      className={`inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
-        active
-          ? 'bg-indigo-600 text-white'
+      role="tab"
+      id={id}
+      aria-controls={controls}
+      aria-selected={selected}
+      tabIndex={selected ? 0 : -1}
+      onClick={onSelect}
+      className={`inline-flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+        selected
+          ? 'bg-brand-600 text-white'
           : 'text-zinc-600 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800'
       }`}
     >
@@ -126,6 +161,11 @@ function FormatMode() {
       setValidation({ status: 'empty' })
       return
     }
+    if (encoder.encode(debounced).length > LARGE_INPUT_BYTES) {
+      // 대용량: 입력마다 워커 왕복(structuredClone) 비용이 커서 자동 검사를 건너뛴다(수동 검사 제공).
+      setValidation({ status: 'empty' })
+      return
+    }
     validateJsonAsync(debounced)
       .then((result) => {
         if (!cancelled) setValidation(result)
@@ -140,6 +180,7 @@ function FormatMode() {
 
   // 크기 정보 (디바운스된 값 기준으로만 계산)
   const byteCount = useMemo(() => encoder.encode(debounced).length, [debounced])
+  const isLarge = byteCount > LARGE_INPUT_BYTES
 
   // 트리: 트리 보기가 켜져 있고 입력이 있을 때만 메인 스레드에서 파싱 (네이티브 파서는 빠름)
   const tree = useMemo<
@@ -218,6 +259,16 @@ function FormatMode() {
     ta.setSelectionRange(offset, Math.min(offset + 1, ta.value.length))
   }, [])
 
+  // 대용량 입력에서 자동 검사를 멈춘 경우, 사용자가 직접 한 번 검사할 수 있게 한다.
+  const manualValidate = useCallback(async () => {
+    if (debounced.trim() === '') return
+    try {
+      setValidation(await validateJsonAsync(debounced))
+    } catch (e) {
+      handleError(e)
+    }
+  }, [debounced, handleError])
+
   return (
     <div className="space-y-3">
       {/* 툴바 */}
@@ -270,6 +321,25 @@ function FormatMode() {
         </button>
       </div>
 
+      {isLarge && (
+        <div
+          role="status"
+          className="flex flex-wrap items-center gap-2 rounded-md border border-amber-200 bg-amber-50 p-2.5 text-sm text-amber-700 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-300"
+        >
+          <span>
+            입력이 큽니다(약 {Math.max(1, Math.round(byteCount / (1024 * 1024)))}MB). 매 입력마다 자동
+            검사를 멈췄습니다 — 정렬·압축은 그대로 동작합니다.
+          </span>
+          <button
+            type="button"
+            onClick={manualValidate}
+            className="rounded border border-amber-300 px-2 py-0.5 text-xs font-medium hover:bg-amber-100 dark:border-amber-800 dark:hover:bg-amber-900"
+          >
+            지금 검사
+          </button>
+        </div>
+      )}
+
       {(actionError || copyFailed) && (
         <div
           role="alert"
@@ -286,7 +356,7 @@ function FormatMode() {
 
       {/* 에디터 + (선택) 트리 */}
       <div className={`grid gap-3 ${showTree ? 'lg:grid-cols-2' : ''}`}>
-        <div className="h-[60vh] min-h-[320px]">
+        <div className="h-[60dvh] min-h-[320px]">
           <Editor
             ref={taRef}
             value={text}
@@ -296,7 +366,7 @@ function FormatMode() {
           />
         </div>
         {showTree && (
-          <div className="h-[60vh] min-h-[320px] overflow-auto rounded-md border border-zinc-200 bg-white p-2 dark:border-zinc-800 dark:bg-zinc-900">
+          <div className="h-[60dvh] min-h-[320px] overflow-auto rounded-md border border-zinc-200 bg-white p-2 dark:border-zinc-800 dark:bg-zinc-900">
             {tree.ok ? (
               <TreeView data={tree.value} />
             ) : (
@@ -380,13 +450,13 @@ function DiffMode() {
       <div className="grid gap-3 md:grid-cols-2">
         <div className="space-y-1">
           <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">왼쪽 (변경 전)</span>
-          <div className="h-[40vh] min-h-[240px]">
+          <div className="h-[40dvh] min-h-[240px]">
             <Editor value={left} onChange={onLeft} ariaLabel="왼쪽 JSON" placeholder="변경 전 JSON" />
           </div>
         </div>
         <div className="space-y-1">
           <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">오른쪽 (변경 후)</span>
-          <div className="h-[40vh] min-h-[240px]">
+          <div className="h-[40dvh] min-h-[240px]">
             <Editor value={right} onChange={onRight} ariaLabel="오른쪽 JSON" placeholder="변경 후 JSON" />
           </div>
         </div>

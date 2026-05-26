@@ -10,7 +10,7 @@ export function Header() {
           to="/"
           className="flex items-center gap-2 text-lg font-bold tracking-tight text-zinc-900 dark:text-zinc-50"
         >
-          <span className="flex h-7 w-7 items-center justify-center rounded-md bg-indigo-600 text-white">
+          <span className="flex h-7 w-7 items-center justify-center rounded-md bg-brand-600 text-white">
             <BracesIcon className="h-4 w-4" />
           </span>
           devbox

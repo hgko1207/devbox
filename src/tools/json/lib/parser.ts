@@ -29,6 +29,10 @@ type Json = unknown
 
 // ── 위치 추적 파서 ────────────────────────────────────────────────────────────
 
+// 주의: 이 파서는 *오류 위치 추적 전용*이다. parseObject/parseString/parseNumber 등의
+// 반환값은 parseJson 에서 사용하지 않는다 — 정상 입력은 네이티브 JSON.parse 가 처리하고,
+// 이 파서는 JSON.parse 가 실패했을 때 어디서·왜 틀렸는지만 찾는다. 큰 정수·서로게이트 등에서
+// 네이티브와 결과가 다를 수 있으니 이 파서의 반환값을 데이터로 소비하지 말 것.
 class LocatingParser {
   private i = 0
   private readonly text: string

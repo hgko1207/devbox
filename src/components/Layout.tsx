@@ -5,7 +5,7 @@ import { Header } from './Header'
 function Loading() {
   return (
     <div className="flex items-center justify-center py-24 text-sm text-zinc-500 dark:text-zinc-400">
-      <span className="h-4 w-4 animate-spin rounded-full border-2 border-zinc-300 border-t-indigo-600 dark:border-zinc-700 dark:border-t-indigo-400" />
+      <span className="h-4 w-4 animate-spin rounded-full border-2 border-zinc-300 border-t-brand-600 dark:border-zinc-700 dark:border-t-brand-400" />
       <span className="ml-2">불러오는 중…</span>
     </div>
   )
