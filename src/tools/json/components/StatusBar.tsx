@@ -16,7 +16,7 @@ interface StatusBarProps {
 
 export function StatusBar({ validation, charCount, byteCount, onJumpToError }: StatusBarProps) {
   return (
-    <div className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm dark:border-zinc-800 dark:bg-zinc-900">
+    <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
       <div className="min-w-0 flex-1" role="status" aria-live="polite">
         {validation.status === 'empty' && (
           <span className="text-zinc-500 dark:text-zinc-400">JSON 을 입력하면 자동으로 검사합니다.</span>

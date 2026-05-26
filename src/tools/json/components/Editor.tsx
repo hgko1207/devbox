@@ -29,7 +29,7 @@ export const Editor = memo(
         autoCapitalize="off"
         autoCorrect="off"
         wrap="off"
-        className={`block h-full w-full resize-none rounded-md border border-zinc-300 bg-white p-3 font-mono text-sm leading-relaxed text-zinc-900 placeholder:text-zinc-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 ${className}`}
+        className={`block h-full w-full resize-none rounded-lg border border-zinc-300 bg-white p-3 font-mono text-sm leading-relaxed text-zinc-900 shadow-sm placeholder:text-zinc-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 ${className}`}
       />
     )
   }),

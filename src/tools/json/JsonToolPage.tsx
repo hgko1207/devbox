@@ -15,6 +15,7 @@ import {
 } from './lib/workerClient'
 import { useDebounced } from '@/lib/useDebounced'
 import {
+  BracesIcon,
   CheckIcon,
   CopyIcon,
   DiffIcon,
@@ -63,7 +64,12 @@ export default function JsonToolPage() {
           </Link>{' '}
           / JSON 도구
         </div>
-        <h1 className="text-2xl font-bold tracking-tight">JSON 도구</h1>
+        <h1 className="flex items-center gap-2 text-2xl font-bold tracking-tight">
+          <span className="flex h-7 w-7 items-center justify-center rounded-md bg-brand-600 text-white">
+            <BracesIcon className="h-4 w-4" />
+          </span>
+          JSON 도구
+        </h1>
         <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
           포맷팅·압축·유효성 검사, 트리 뷰, 두 JSON 비교. 모든 처리는 브라우저에서만 이루어집니다.
         </p>
@@ -298,6 +304,7 @@ function FormatMode() {
         </label>
 
         <div className="flex-1" />
+        <div className="mx-1 hidden h-6 w-px bg-zinc-200 sm:block dark:bg-zinc-800" aria-hidden="true" />
 
         <button
           type="button"
@@ -366,7 +373,7 @@ function FormatMode() {
           />
         </div>
         {showTree && (
-          <div className="h-[60dvh] min-h-[320px] overflow-auto rounded-md border border-zinc-200 bg-white p-2 dark:border-zinc-800 dark:bg-zinc-900">
+          <div className="h-[60dvh] min-h-[320px] overflow-auto rounded-lg border border-zinc-200 bg-white p-2 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
             {tree.ok ? (
               <TreeView data={tree.value} />
             ) : (
