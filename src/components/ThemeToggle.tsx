@@ -14,7 +14,7 @@ export function ThemeToggle() {
     <button
       type="button"
       onClick={cycle}
-      className="btn h-9 w-9 !px-0"
+      className="btn h-10 w-10 !px-0"
       title={`테마: ${labels[theme]} (클릭하여 변경)`}
       aria-label={`테마 변경. 현재 ${labels[theme]}`}
     >

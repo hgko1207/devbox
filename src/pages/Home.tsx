@@ -22,8 +22,8 @@ export default function Home() {
 
       {/* 도구 목록 */}
       <section>
-        <h2 className="mb-3 text-sm font-semibold text-zinc-500 dark:text-zinc-400">
-          도구{tools.length >= 4 ? ` (${tools.length})` : ''}
+        <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+          도구{tools.length >= 4 ? ` · ${tools.length}` : ''}
         </h2>
         <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {tools.map((tool) => {
