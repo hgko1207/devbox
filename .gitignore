@@ -16,3 +16,4 @@ yarn-error.log*
 
 # Claude Code 로컬 설정
 .claude/
+.gstack/
