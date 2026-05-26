@@ -1,3 +1,4 @@
+/// <reference types="vitest/config" />
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { fileURLToPath, URL } from 'node:url'
@@ -16,5 +17,10 @@ export default defineConfig({
   },
   build: {
     target: 'es2020',
+  },
+  test: {
+    // parser/diff 는 순수 로직이라 DOM 불필요 → node 환경에서 빠르게 실행
+    environment: 'node',
+    include: ['src/**/*.test.ts'],
   },
 })

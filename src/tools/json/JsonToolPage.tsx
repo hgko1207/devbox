@@ -110,9 +110,12 @@ function FormatMode() {
   const [indent, setIndent] = useState<Indent>(2)
   const [showTree, setShowTree] = useState(false)
   const [validation, setValidation] = useState<ValidationResult>({ status: 'empty' })
-  const [busy, setBusy] = useState(false)
+  const [running, setRunning] = useState<null | 'format' | 'minify'>(null)
+  const [actionError, setActionError] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
+  const [copyFailed, setCopyFailed] = useState(false)
   const taRef = useRef<HTMLTextAreaElement>(null)
+  const busy = running !== null
 
   const debounced = useDebounced(text, 300)
 
@@ -159,41 +162,52 @@ function FormatMode() {
   const handleError = useCallback((e: unknown) => {
     if (e instanceof JsonWorkerError && e.workerError.kind === 'json') {
       setValidation({ status: 'invalid', error: e.workerError.detail })
+    } else {
+      // 워커 타임아웃·크래시 등 JSON 위치 오류가 아닌 경우는 배너로 보여준다.
+      setActionError(e instanceof Error ? e.message : '처리 중 오류가 발생했습니다.')
     }
   }, [])
 
   const runFormat = useCallback(async () => {
     if (text.trim() === '') return
-    setBusy(true)
+    setRunning('format')
+    setActionError(null)
     try {
       setText(await formatJsonAsync(text, indent))
     } catch (e) {
       handleError(e)
     } finally {
-      setBusy(false)
+      setRunning(null)
     }
   }, [text, indent, handleError])
 
   const runMinify = useCallback(async () => {
     if (text.trim() === '') return
-    setBusy(true)
+    setRunning('minify')
+    setActionError(null)
     try {
       setText(await minifyJsonAsync(text))
     } catch (e) {
       handleError(e)
     } finally {
-      setBusy(false)
+      setRunning(null)
     }
   }, [text, handleError])
 
   const copy = useCallback(async () => {
     if (text === '') return
     try {
+      if (!navigator.clipboard) throw new Error('clipboard unavailable')
       await navigator.clipboard.writeText(text)
       setCopied(true)
+      setCopyFailed(false)
       setTimeout(() => setCopied(false), 1500)
     } catch {
-      /* 클립보드 권한 없음 */
+      // 비보안 컨텍스트(http)·권한 거부: 텍스트를 선택해 두어 사용자가 직접 복사하게 한다.
+      taRef.current?.focus()
+      taRef.current?.select()
+      setCopyFailed(true)
+      setTimeout(() => setCopyFailed(false), 4000)
     }
   }, [text])
 
@@ -210,11 +224,11 @@ function FormatMode() {
       <div className="flex flex-wrap items-center gap-2">
         <button type="button" className="btn btn-primary" onClick={runFormat} disabled={busy || text === ''}>
           <WandIcon className="h-4 w-4" />
-          정렬
+          {running === 'format' ? '정렬 중…' : '정렬'}
         </button>
         <button type="button" className="btn" onClick={runMinify} disabled={busy || text === ''}>
           <MinifyIcon className="h-4 w-4" />
-          압축
+          {running === 'minify' ? '압축 중…' : '압축'}
         </button>
 
         <label className="ml-1 flex items-center gap-1.5 text-sm text-zinc-600 dark:text-zinc-400">
@@ -245,7 +259,7 @@ function FormatMode() {
         </button>
         <button type="button" className="btn" onClick={copy} disabled={text === ''}>
           {copied ? <CheckIcon className="h-4 w-4 text-emerald-500" /> : <CopyIcon className="h-4 w-4" />}
-          {copied ? '복사됨' : '복사'}
+          {copied ? '복사됨' : copyFailed ? '직접 선택됨' : '복사'}
         </button>
         <button type="button" className="btn" onClick={() => setText(SAMPLE)}>
           예제
@@ -255,6 +269,20 @@ function FormatMode() {
           지우기
         </button>
       </div>
+
+      {(actionError || copyFailed) && (
+        <div
+          role="alert"
+          className={
+            actionError
+              ? 'rounded-md border border-red-200 bg-red-50 p-2.5 text-sm text-red-700 dark:border-red-900 dark:bg-red-950/40 dark:text-red-300'
+              : 'rounded-md border border-amber-200 bg-amber-50 p-2.5 text-sm text-amber-700 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-300'
+          }
+        >
+          {actionError ??
+            '클립보드를 사용할 수 없어 텍스트를 선택해 두었습니다. Ctrl/⌘+C 로 복사하세요.'}
+        </div>
+      )}
 
       {/* 에디터 + (선택) 트리 */}
       <div className={`grid gap-3 ${showTree ? 'lg:grid-cols-2' : ''}`}>
