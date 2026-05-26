@@ -11,8 +11,8 @@ export default function Home() {
           개발자 도구, 한국어로 정확하게
         </h1>
         <p className="mx-auto mt-3 max-w-xl text-sm text-zinc-600 sm:text-base dark:text-zinc-400">
-          잘못된 JSON이면 어디가·왜 틀렸는지 줄·열까지 한국어로 짚어줍니다. 모든 처리는
-          브라우저 안에서만 이루어지고, 데이터는 서버로 전송되지 않습니다.
+          자주 쓰는 개발자 도구를 한곳에서. 한국어 UI에 정확한 동작 — 모든 처리는 브라우저
+          안에서만 이루어지고, 데이터는 서버로 전송되지 않습니다.
         </p>
         <div className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-emerald-300 bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
           <ShieldIcon className="h-3.5 w-3.5" />

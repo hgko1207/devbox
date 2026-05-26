@@ -141,3 +141,46 @@ export function ShieldIcon(props: IconProps) {
     </Base>
   )
 }
+
+export function CodeIcon(props: IconProps) {
+  return (
+    <Base {...props}>
+      <path d="m8 8-4 4 4 4M16 8l4 4-4 4" />
+    </Base>
+  )
+}
+
+export function LinkIcon(props: IconProps) {
+  return (
+    <Base {...props}>
+      <path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+      <path d="M14 11a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+    </Base>
+  )
+}
+
+export function KeyIcon(props: IconProps) {
+  return (
+    <Base {...props}>
+      <circle cx="7.5" cy="15.5" r="4" />
+      <path d="m10.5 12.5 9-9M16 5l3 3M18 7l2-2" />
+    </Base>
+  )
+}
+
+export function ClockIcon(props: IconProps) {
+  return (
+    <Base {...props}>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7v5l3 2" />
+    </Base>
+  )
+}
+
+export function HashIcon(props: IconProps) {
+  return (
+    <Base {...props}>
+      <path d="M4 9h16M4 15h16M10 3 8 21M16 3l-2 18" />
+    </Base>
+  )
+}

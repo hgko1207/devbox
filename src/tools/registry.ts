@@ -1,5 +1,10 @@
 import type { ToolMeta } from './types'
 import { jsonTool } from './json/meta'
+import { base64Tool } from './base64/meta'
+import { urlTool } from './url/meta'
+import { jwtTool } from './jwt/meta'
+import { timestampTool } from './timestamp/meta'
+import { uuidTool } from './uuid/meta'
 
 /**
  * 도구 등록소.
@@ -9,7 +14,7 @@ import { jsonTool } from './json/meta'
  *   2. 아래 배열에 import 해서 한 줄 추가한다.
  * 그러면 홈 목록과 라우팅에 자동으로 반영된다.
  */
-export const tools: ToolMeta[] = [jsonTool]
+export const tools: ToolMeta[] = [jsonTool, base64Tool, urlTool, jwtTool, timestampTool, uuidTool]
 
 /** id·path 의 고유성과 형식을 검증한다 (개발 중 실수를 일찍 잡는다). */
 function validateRegistry(list: ToolMeta[]): void {
