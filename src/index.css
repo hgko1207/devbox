@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 자체 호스팅 Pretendard (외부 요청 0, base 경로 안전 — Vite 가 해시·재배치) */
+@font-face {
+  font-family: 'Pretendard Variable';
+  font-weight: 45 920;
+  font-style: normal;
+  font-display: swap;
+  src: url('./fonts/PretendardVariable.woff2') format('woff2-variations');
+}
+
 @layer base {
   :root {
     color-scheme: light dark;
