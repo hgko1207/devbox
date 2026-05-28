@@ -184,3 +184,36 @@ export function HashIcon(props: IconProps) {
     </Base>
   )
 }
+
+export function FingerprintIcon(props: IconProps) {
+  return (
+    <Base {...props}>
+      <path d="M4 11a8 8 0 0 1 16 0v1" />
+      <path d="M7 13c0-2.8 2.2-5 5-5s5 2.2 5 5v1" />
+      <path d="M10 16c0-1.1.9-2 2-2" />
+      <path d="M12 19v-3" />
+    </Base>
+  )
+}
+
+export function PaletteIcon(props: IconProps) {
+  return (
+    <Base {...props}>
+      <path d="M12 22a10 10 0 1 1 10-10c0 1.5-1.5 3-3 3h-2a3 3 0 0 0-3 3v2c0 1.5-1.5 2-2 2Z" />
+      <circle cx="7" cy="11" r="1.2" />
+      <circle cx="9" cy="6" r="1.2" />
+      <circle cx="14" cy="6" r="1.2" />
+      <circle cx="17" cy="9" r="1.2" />
+    </Base>
+  )
+}
+
+export function RegexIcon(props: IconProps) {
+  return (
+    <Base {...props}>
+      <path d="m6 7-3 5 3 5" />
+      <path d="m18 7 3 5-3 5" />
+      <path d="M12 9v6M9.5 10.5l5 3M14.5 10.5l-5 3" />
+    </Base>
+  )
+}
