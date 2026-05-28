@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { tools } from '@/tools/registry'
 import { ChevronRightIcon, ShieldIcon } from '@/components/icons'
+import { HeroDemo } from '@/components/HeroDemo'
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
           <ShieldIcon className="h-3.5 w-3.5" />
           100% 로컬 처리 · 추적·광고·회원가입 없음
         </div>
+        <HeroDemo />
       </section>
 
       {/* 도구 목록 */}
