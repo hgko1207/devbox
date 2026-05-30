@@ -1,5 +1,6 @@
 import type { ComponentType } from 'react'
 import { Link } from 'react-router-dom'
+import { useTitle } from '@/lib/useTitle'
 
 interface ToolHeaderProps {
   name: string
@@ -9,6 +10,7 @@ interface ToolHeaderProps {
 
 /** 모든 도구 페이지 공통 헤더 (브레드크럼 + 브랜드 아이콘 + 제목 + 설명). */
 export function ToolHeader({ name, description, icon: Icon }: ToolHeaderProps) {
+  useTitle(name)
   return (
     <header>
       <div className="mb-1 text-xs text-zinc-500 dark:text-zinc-400">

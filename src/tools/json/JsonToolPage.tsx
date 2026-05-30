@@ -14,6 +14,7 @@ import {
   validateJsonAsync,
 } from './lib/workerClient'
 import { useDebounced } from '@/lib/useDebounced'
+import { useTitle } from '@/lib/useTitle'
 import {
   BracesIcon,
   CheckIcon,
@@ -53,6 +54,7 @@ const TABS: { value: Mode; label: string; icon: React.ReactNode }[] = [
 ]
 
 export default function JsonToolPage() {
+  useTitle('JSON 도구')
   const [mode, setMode] = useState<Mode>('format')
 
   return (

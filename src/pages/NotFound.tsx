@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom'
+import { useTitle } from '@/lib/useTitle'
 
 export default function NotFound() {
+  useTitle('찾을 수 없음')
   return (
     <div className="flex flex-col items-center justify-center gap-4 py-24 text-center">
       <p className="text-5xl font-bold text-zinc-300 dark:text-zinc-700">404</p>
