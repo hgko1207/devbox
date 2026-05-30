@@ -9,5 +9,6 @@ export const colorTool: ToolMeta = {
   description: 'HEX ↔ RGB ↔ HSL 자동 변환 + 미리보기',
   icon: PaletteIcon,
   keywords: ['color', '색상', '색', 'hex', 'rgb', 'hsl', '변환', 'convert'],
+  category: '유틸리티',
   component: lazy(() => import('./ColorPage')),
 }

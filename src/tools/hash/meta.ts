@@ -9,5 +9,6 @@ export const hashTool: ToolMeta = {
   description: 'SHA-1·SHA-256·SHA-384·SHA-512 해시 (Web Crypto)',
   icon: FingerprintIcon,
   keywords: ['hash', 'sha', 'sha256', 'sha-256', '해시', '체크섬', 'checksum', 'digest'],
+  category: '생성 · 계산',
   component: lazy(() => import('./HashPage')),
 }

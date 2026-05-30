@@ -9,5 +9,6 @@ export const uuidTool: ToolMeta = {
   description: 'UUID v4 생성 (개수 지정·대문자·전체 복사)',
   icon: HashIcon,
   keywords: ['uuid', 'guid', 'random', '난수', '식별자', 'v4'],
+  category: '생성 · 계산',
   component: lazy(() => import('./UuidPage')),
 }

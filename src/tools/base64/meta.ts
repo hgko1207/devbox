@@ -9,5 +9,6 @@ export const base64Tool: ToolMeta = {
   description: '텍스트 ↔ Base64 인코드·디코드 (UTF-8·URL-safe)',
   icon: CodeIcon,
   keywords: ['base64', 'encode', 'decode', '인코드', '디코드', '인코딩', '디코딩'],
+  category: '인코딩 · 디코딩',
   component: lazy(() => import('./Base64Page')),
 }

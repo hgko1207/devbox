@@ -1,9 +1,36 @@
+import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
+import type { ToolMeta } from '@/tools/types'
 import { tools } from '@/tools/registry'
 import { ChevronRightIcon, ShieldIcon } from '@/components/icons'
 import { HeroDemo } from '@/components/HeroDemo'
+import { useTitle } from '@/lib/useTitle'
+
+// 표시 순서. 미지정 카테고리는 뒤에 자동으로 붙는다.
+const CATEGORY_ORDER = ['데이터', '인코딩 · 디코딩', '생성 · 계산', '유틸리티']
 
 export default function Home() {
+  useTitle()
+
+  const groups = useMemo<[string, ToolMeta[]][]>(() => {
+    const map = new Map<string, ToolMeta[]>()
+    for (const t of tools) {
+      const cat = t.category ?? '기타'
+      if (!map.has(cat)) map.set(cat, [])
+      map.get(cat)!.push(t)
+    }
+    const ordered: [string, ToolMeta[]][] = []
+    for (const cat of CATEGORY_ORDER) {
+      const list = map.get(cat)
+      if (list) {
+        ordered.push([cat, list])
+        map.delete(cat)
+      }
+    }
+    for (const [cat, list] of map) ordered.push([cat, list])
+    return ordered
+  }, [])
+
   return (
     <div className="space-y-10">
       {/* 히어로 */}
@@ -22,35 +49,39 @@ export default function Home() {
         <HeroDemo />
       </section>
 
-      {/* 도구 목록 */}
-      <section>
-        <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
-          도구{tools.length >= 4 ? ` · ${tools.length}` : ''}
-        </h2>
-        <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {tools.map((tool) => {
-            const Icon = tool.icon
-            return (
-              <li key={tool.id}>
-                <Link
-                  to={tool.path}
-                  className="group flex h-full flex-col rounded-xl border border-zinc-200 bg-white p-5 transition-all hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-brand-700"
-                >
-                  <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-brand-50 text-brand-600 dark:bg-brand-950 dark:text-brand-400">
-                    <Icon className="h-5 w-5" />
-                  </div>
-                  <h3 className="flex items-center gap-1 font-semibold">
-                    {tool.name}
-                    <ChevronRightIcon className="h-4 w-4 text-zinc-400 transition-transform group-hover:translate-x-0.5" />
-                  </h3>
-                  <p className="mt-1 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-                    {tool.description}
-                  </p>
-                </Link>
-              </li>
-            )
-          })}
-        </ul>
+      {/* 도구 — 카테고리별 그룹 */}
+      <section className="space-y-8">
+        {groups.map(([cat, list]) => (
+          <div key={cat}>
+            <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+              {cat} <span className="text-zinc-400">· {list.length}</span>
+            </h2>
+            <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {list.map((tool) => {
+                const Icon = tool.icon
+                return (
+                  <li key={tool.id}>
+                    <Link
+                      to={tool.path}
+                      className="group flex h-full flex-col rounded-xl border border-zinc-200 bg-white p-5 transition-all hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-brand-700"
+                    >
+                      <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-brand-50 text-brand-600 dark:bg-brand-950 dark:text-brand-400">
+                        <Icon className="h-5 w-5" />
+                      </div>
+                      <h3 className="flex items-center gap-1 font-semibold">
+                        {tool.name}
+                        <ChevronRightIcon className="h-4 w-4 text-zinc-400 transition-transform group-hover:translate-x-0.5" />
+                      </h3>
+                      <p className="mt-1 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+                        {tool.description}
+                      </p>
+                    </Link>
+                  </li>
+                )
+              })}
+            </ul>
+          </div>
+        ))}
       </section>
     </div>
   )

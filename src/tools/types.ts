@@ -13,6 +13,8 @@ export interface ToolMeta {
   icon: ComponentType<{ className?: string }>
   /** 검색/필터용 키워드 (선택) */
   keywords?: string[]
+  /** 홈 그룹핑용 카테고리 (선택). 예: '데이터', '인코딩 · 디코딩' */
+  category?: string
   /** 페이지 컴포넌트. 코드 스플리팅을 위해 React.lazy 사용을 권장 */
   component: LazyExoticComponent<ComponentType> | ComponentType
 }
