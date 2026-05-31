@@ -4,6 +4,7 @@ import type { ToolMeta } from '@/tools/types'
 import { tools } from '@/tools/registry'
 import { ChevronRightIcon, ShieldIcon } from '@/components/icons'
 import { HeroDemo } from '@/components/HeroDemo'
+import { FavoriteButton } from '@/components/FavoriteButton'
 import { useTitle } from '@/lib/useTitle'
 
 // 표시 순서. 미지정 카테고리는 뒤에 자동으로 붙는다.
@@ -63,8 +64,9 @@ export default function Home() {
                   <li key={tool.id}>
                     <Link
                       to={tool.path}
-                      className="group flex h-full flex-col rounded-xl border border-zinc-200 bg-white p-5 transition-all hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-brand-700"
+                      className="group relative flex h-full flex-col rounded-xl border border-zinc-200 bg-white p-5 transition-all hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-brand-700"
                     >
+                      <FavoriteButton toolId={tool.id} className="absolute right-2 top-2" />
                       <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-brand-50 text-brand-600 dark:bg-brand-950 dark:text-brand-400">
                         <Icon className="h-5 w-5" />
                       </div>

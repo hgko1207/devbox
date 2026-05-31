@@ -1,8 +1,10 @@
 import { Suspense } from 'react'
 import { Outlet } from 'react-router-dom'
 import { Header } from './Header'
+import { Sidebar } from './Sidebar'
 import { CommandPaletteProvider } from '@/lib/commandPalette'
 import { CommandPalette } from './CommandPalette'
+import { SidebarProvider } from '@/lib/sidebar'
 
 function Loading() {
   return (
@@ -15,29 +17,36 @@ function Loading() {
 
 export function Layout() {
   return (
-    <CommandPaletteProvider>
-      <div className="flex min-h-full flex-col">
-        <Header />
-        <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6">
-          <Suspense fallback={<Loading />}>
-            <Outlet />
-          </Suspense>
-        </main>
-        <footer className="border-t border-zinc-200 py-6 text-center text-xs text-zinc-500 dark:border-zinc-800 dark:text-zinc-400">
-          <p>
-            devbox · 정적 사이트 · 회원가입/광고/추적 없음 ·{' '}
-            <a
-              href="https://github.com/hgko1207/devbox"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline hover:text-zinc-700 dark:hover:text-zinc-200"
-            >
-              GitHub
-            </a>
-          </p>
-        </footer>
-        <CommandPalette />
-      </div>
-    </CommandPaletteProvider>
+    <SidebarProvider>
+      <CommandPaletteProvider>
+        <div className="flex min-h-full flex-col">
+          <Header />
+          <div className="flex flex-1">
+            <Sidebar />
+            <main className="min-w-0 flex-1">
+              <div className="mx-auto w-full max-w-5xl px-4 py-6">
+                <Suspense fallback={<Loading />}>
+                  <Outlet />
+                </Suspense>
+              </div>
+            </main>
+          </div>
+          <footer className="border-t border-zinc-200 py-6 text-center text-xs text-zinc-500 dark:border-zinc-800 dark:text-zinc-400">
+            <p>
+              devbox · 정적 사이트 · 회원가입/광고/추적 없음 ·{' '}
+              <a
+                href="https://github.com/hgko1207/devbox"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:text-zinc-700 dark:hover:text-zinc-200"
+              >
+                GitHub
+              </a>
+            </p>
+          </footer>
+          <CommandPalette />
+        </div>
+      </CommandPaletteProvider>
+    </SidebarProvider>
   )
 }

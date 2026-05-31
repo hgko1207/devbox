@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { Editor } from './components/Editor'
+import { ToolHeader } from '@/components/ToolHeader'
 import { StatusBar } from './components/StatusBar'
 import { TreeView } from './components/TreeView'
 import { DiffView } from './components/DiffView'
@@ -14,7 +14,6 @@ import {
   validateJsonAsync,
 } from './lib/workerClient'
 import { useDebounced } from '@/lib/useDebounced'
-import { useTitle } from '@/lib/useTitle'
 import {
   BracesIcon,
   CheckIcon,
@@ -54,28 +53,15 @@ const TABS: { value: Mode; label: string; icon: React.ReactNode }[] = [
 ]
 
 export default function JsonToolPage() {
-  useTitle('JSON 도구')
   const [mode, setMode] = useState<Mode>('format')
 
   return (
     <div className="space-y-5">
-      <header>
-        <div className="mb-1 text-xs text-zinc-500 dark:text-zinc-400">
-          <Link to="/" className="hover:underline">
-            홈
-          </Link>{' '}
-          / JSON 도구
-        </div>
-        <h1 className="flex items-center gap-2 text-2xl font-bold tracking-tight">
-          <span className="flex h-7 w-7 items-center justify-center rounded-md bg-brand-600 text-white">
-            <BracesIcon className="h-4 w-4" />
-          </span>
-          JSON 도구
-        </h1>
-        <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
-          포맷팅·압축·유효성 검사, 트리 뷰, 두 JSON 비교. 모든 처리는 브라우저에서만 이루어집니다.
-        </p>
-      </header>
+      <ToolHeader
+        name="JSON 도구"
+        description="포맷팅·압축·유효성 검사, 트리 뷰, 두 JSON 비교. 모든 처리는 브라우저에서만 이루어집니다."
+        icon={BracesIcon}
+      />
 
       {/* 모드 탭 */}
       <div
