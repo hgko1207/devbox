@@ -226,3 +226,51 @@ export function SearchIcon(props: IconProps) {
     </Base>
   )
 }
+
+export function StarIcon(props: IconProps) {
+  return (
+    <Base {...props}>
+      <path d="m12 3 2.5 5.8 6.5.6-5 4.4 1.5 6.3L12 17l-5.5 3.1L8 13.8 3 9.4l6.5-.6Z" />
+    </Base>
+  )
+}
+
+export function StarFilledIcon({ className, ...rest }: IconProps) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width="1em"
+      height="1em"
+      fill="currentColor"
+      aria-hidden="true"
+      className={className}
+      {...rest}
+    >
+      <path d="m12 3 2.5 5.8 6.5.6-5 4.4 1.5 6.3L12 17l-5.5 3.1L8 13.8 3 9.4l6.5-.6Z" />
+    </svg>
+  )
+}
+
+export function MenuIcon(props: IconProps) {
+  return (
+    <Base {...props}>
+      <path d="M4 6h16M4 12h16M4 18h16" />
+    </Base>
+  )
+}
+
+export function ChevronLeftIcon(props: IconProps) {
+  return (
+    <Base {...props}>
+      <path d="m15 18-6-6 6-6" />
+    </Base>
+  )
+}
+
+export function XIcon(props: IconProps) {
+  return (
+    <Base {...props}>
+      <path d="M18 6 6 18M6 6l12 12" />
+    </Base>
+  )
+}
