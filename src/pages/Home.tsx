@@ -64,17 +64,17 @@ export default function Home() {
                   <li key={tool.id}>
                     <Link
                       to={tool.path}
-                      className="group relative flex h-full flex-col rounded-xl border border-zinc-200 bg-white p-5 transition-all hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-brand-700"
+                      className="group relative flex h-full flex-col rounded-lg border border-zinc-200 bg-white p-4 transition-all hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-brand-700"
                     >
-                      <FavoriteButton toolId={tool.id} className="absolute right-2 top-2" />
-                      <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-brand-50 text-brand-600 dark:bg-brand-950 dark:text-brand-400">
-                        <Icon className="h-5 w-5" />
+                      <FavoriteButton toolId={tool.id} className="absolute right-1.5 top-1.5 !h-7 !w-7" />
+                      <div className="mb-2 flex h-9 w-9 items-center justify-center rounded-lg bg-brand-50 text-brand-600 dark:bg-brand-950 dark:text-brand-400">
+                        <Icon className="h-4 w-4" />
                       </div>
-                      <h3 className="flex items-center gap-1 font-semibold">
+                      <h3 className="flex items-center gap-1 text-sm font-semibold">
                         {tool.name}
-                        <ChevronRightIcon className="h-4 w-4 text-zinc-400 transition-transform group-hover:translate-x-0.5" />
+                        <ChevronRightIcon className="h-3.5 w-3.5 text-zinc-400 transition-transform group-hover:translate-x-0.5" />
                       </h3>
-                      <p className="mt-1 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+                      <p className="mt-0.5 line-clamp-2 text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">
                         {tool.description}
                       </p>
                     </Link>
