@@ -4,7 +4,7 @@ import type { ToolMeta } from '@/tools/types'
 import { tools } from '@/tools/registry'
 import { useSidebar } from '@/lib/sidebar'
 import { useFavorites } from '@/lib/useFavorites'
-import { ChevronLeftIcon, StarFilledIcon, XIcon } from './icons'
+import { StarFilledIcon, XIcon } from './icons'
 
 const CATEGORY_ORDER = ['데이터', '인코딩 · 디코딩', '생성 · 계산', '유틸리티']
 
@@ -28,7 +28,7 @@ function group(list: ToolMeta[]): [string, ToolMeta[]][] {
 }
 
 export function Sidebar() {
-  const { collapsed, toggleCollapsed, mobileOpen, setMobileOpen } = useSidebar()
+  const { collapsed, mobileOpen, setMobileOpen } = useSidebar()
   const { favorites } = useFavorites()
   const location = useLocation()
 
@@ -70,28 +70,15 @@ export function Sidebar() {
           dark:border-zinc-800 dark:bg-zinc-950/95
         `}
       >
-        {/* 상단 컨트롤 */}
-        <div className="flex h-12 items-center justify-end gap-1 border-b border-zinc-200 px-2 dark:border-zinc-800">
-          {/* 모바일: 닫기 */}
+        {/* 모바일: 상단 닫기 바 (데스크톱은 헤더에서 접기/펼치기 제어) */}
+        <div className="flex h-12 items-center justify-end gap-1 border-b border-zinc-200 px-2 md:hidden dark:border-zinc-800">
           <button
             type="button"
             onClick={() => setMobileOpen(false)}
-            className="btn h-8 w-8 !px-0 md:hidden"
+            className="btn h-8 w-8 !px-0"
             aria-label="사이드바 닫기"
           >
             <XIcon className="h-4 w-4" />
-          </button>
-          {/* 데스크톱: 접기/펼치기 */}
-          <button
-            type="button"
-            onClick={toggleCollapsed}
-            className="btn hidden h-8 w-8 !px-0 md:inline-flex"
-            aria-label={collapsed ? '사이드바 펼치기' : '사이드바 접기'}
-            title={collapsed ? '사이드바 펼치기' : '사이드바 접기'}
-          >
-            <ChevronLeftIcon
-              className={`h-4 w-4 transition-transform ${collapsed ? 'rotate-180' : ''}`}
-            />
           </button>
         </div>
 

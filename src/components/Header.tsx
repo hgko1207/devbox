@@ -1,18 +1,18 @@
 import { Link } from 'react-router-dom'
 import { ThemeToggle } from './ThemeToggle'
-import { BracesIcon, GithubIcon, MenuIcon, SearchIcon } from './icons'
+import { BracesIcon, ChevronLeftIcon, GithubIcon, MenuIcon, SearchIcon } from './icons'
 import { useCommandPalette } from '@/lib/commandPalette'
 import { useSidebar } from '@/lib/sidebar'
 
 export function Header() {
   const { setOpen } = useCommandPalette()
-  const { setMobileOpen } = useSidebar()
+  const { setMobileOpen, collapsed, toggleCollapsed } = useSidebar()
 
   return (
     <header className="sticky top-0 z-20 border-b border-zinc-200 bg-zinc-50/80 backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/80">
       <div className="flex h-14 items-center justify-between gap-2 px-4">
         <div className="flex items-center gap-2">
-          {/* 모바일 햄버거 (사이드바 열기) */}
+          {/* 모바일: 햄버거 → 사이드바 드로어 */}
           <button
             type="button"
             onClick={() => setMobileOpen(true)}
@@ -20,6 +20,19 @@ export function Header() {
             aria-label="사이드바 열기"
           >
             <MenuIcon className="h-[18px] w-[18px]" />
+          </button>
+
+          {/* 데스크톱: 사이드바 접기/펼치기 */}
+          <button
+            type="button"
+            onClick={toggleCollapsed}
+            className="btn hidden h-10 w-10 !px-0 md:inline-flex"
+            aria-label={collapsed ? '사이드바 펼치기' : '사이드바 접기'}
+            title={collapsed ? '사이드바 펼치기' : '사이드바 접기'}
+          >
+            <ChevronLeftIcon
+              className={`h-[18px] w-[18px] transition-transform ${collapsed ? 'rotate-180' : ''}`}
+            />
           </button>
 
           <Link
