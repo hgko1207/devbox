@@ -7,6 +7,7 @@ import { timestampTool } from './timestamp/meta'
 import { uuidTool } from './uuid/meta'
 import { hashTool } from './hash/meta'
 import { colorTool } from './color/meta'
+import { palettesTool } from './palettes/meta'
 import { regexTool } from './regex/meta'
 import { yamlTool } from './yaml/meta'
 import { tsTypesTool } from './ts-types/meta'
@@ -38,6 +39,7 @@ export const tools: ToolMeta[] = [
   cronTool,
   // 유틸리티
   colorTool,
+  palettesTool,
   regexTool,
   caseTool,
   textDiffTool,
