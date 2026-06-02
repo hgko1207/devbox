@@ -6,7 +6,7 @@ import { useSidebar } from '@/lib/sidebar'
 import { useFavorites } from '@/lib/useFavorites'
 import { StarFilledIcon, XIcon } from './icons'
 
-const CATEGORY_ORDER = ['데이터', '인코딩 · 디코딩', '생성 · 계산', '유틸리티']
+const CATEGORY_ORDER = ['데이터', '한국어', '인코딩 · 디코딩', '생성 · 계산', '유틸리티']
 
 function group(list: ToolMeta[]): [string, ToolMeta[]][] {
   const map = new Map<string, ToolMeta[]>()

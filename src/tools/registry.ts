@@ -14,6 +14,9 @@ import { tsTypesTool } from './ts-types/meta'
 import { cronTool } from './cron/meta'
 import { caseTool } from './case/meta'
 import { textDiffTool } from './text-diff/meta'
+import { brnTool } from './brn/meta'
+import { romajaTool } from './romaja/meta'
+import { loremKoTool } from './lorem-ko/meta'
 
 /**
  * 도구 등록소.
@@ -28,6 +31,10 @@ export const tools: ToolMeta[] = [
   jsonTool,
   yamlTool,
   tsTypesTool,
+  // 한국어 (devbox 만의 차별화 묶음)
+  brnTool,
+  romajaTool,
+  loremKoTool,
   // 인코딩 · 디코딩
   base64Tool,
   urlTool,

@@ -8,7 +8,7 @@ import { FavoriteButton } from '@/components/FavoriteButton'
 import { useTitle } from '@/lib/useTitle'
 
 // 표시 순서. 미지정 카테고리는 뒤에 자동으로 붙는다.
-const CATEGORY_ORDER = ['데이터', '인코딩 · 디코딩', '생성 · 계산', '유틸리티']
+const CATEGORY_ORDER = ['데이터', '한국어', '인코딩 · 디코딩', '생성 · 계산', '유틸리티']
 
 export default function Home() {
   useTitle()
