@@ -34,7 +34,7 @@ export function FavoriteButton({
           : 'text-zinc-400 hover:text-amber-500 dark:text-zinc-500 dark:hover:text-amber-400'
       } ${className}`}
     >
-      {fav ? <StarFilledIcon className="h-4 w-4" /> : <StarIcon className="h-4 w-4" />}
+      {fav ? <StarFilledIcon className="h-[18px] w-[18px]" /> : <StarIcon className="h-[18px] w-[18px]" />}
     </button>
   )
 }

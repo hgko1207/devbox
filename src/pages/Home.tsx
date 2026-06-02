@@ -54,8 +54,11 @@ export default function Home() {
       <section className="space-y-8">
         {groups.map(([cat, list]) => (
           <div key={cat}>
-            <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
-              {cat} <span className="text-zinc-400">· {list.length}</span>
+            <h2 className="mb-3 flex items-center gap-1.5 text-sm font-semibold text-zinc-700 dark:text-zinc-200">
+              {cat}
+              <span className="rounded-full bg-zinc-100 px-1.5 text-[11px] font-medium text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
+                {list.length}
+              </span>
             </h2>
             <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {list.map((tool) => {
@@ -66,7 +69,7 @@ export default function Home() {
                       to={tool.path}
                       className="group relative flex h-full flex-col rounded-lg border border-zinc-200 bg-white p-4 transition-all hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-brand-700"
                     >
-                      <FavoriteButton toolId={tool.id} className="absolute right-1.5 top-1.5 !h-7 !w-7" />
+                      <FavoriteButton toolId={tool.id} className="absolute right-1.5 top-1.5" />
                       <div className="mb-2 flex h-9 w-9 items-center justify-center rounded-lg bg-brand-50 text-brand-600 dark:bg-brand-950 dark:text-brand-400">
                         <Icon className="h-4 w-4" />
                       </div>

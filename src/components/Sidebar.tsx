@@ -83,7 +83,7 @@ export function Sidebar() {
           {favoriteTools.length > 0 && (
             <Section
               title="즐겨찾기"
-              titleIcon={<StarFilledIcon className="h-3 w-3 text-amber-500" />}
+              titleIcon={<StarFilledIcon className="h-3.5 w-3.5 text-amber-500" />}
             >
               {favoriteTools.map((t) => (
                 <ToolRow key={`fav-${t.id}`} tool={t} />
@@ -114,8 +114,8 @@ function Section({
   children: React.ReactNode
 }) {
   return (
-    <div className="mb-3">
-      <div className="mb-1 flex items-center gap-1.5 px-2 text-[10px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+    <div className="mb-5 last:mb-2">
+      <div className="mb-1.5 flex items-center gap-1.5 px-2 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
         {titleIcon}
         {title}
       </div>
