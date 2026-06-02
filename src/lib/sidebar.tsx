@@ -1,19 +1,7 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-  type ReactNode,
-} from 'react'
-import { useLocalStorage } from './useLocalStorage'
+import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
 
 interface SidebarCtx {
-  /** 데스크톱에서 사이드바가 아이콘 레일로 접힌 상태인지 (localStorage 기억) */
-  collapsed: boolean
-  setCollapsed: (v: boolean) => void
-  toggleCollapsed: () => void
-  /** 모바일 드로어 오픈 상태 (세션 한정) */
+  /** 모바일 드로어 오픈 상태 (세션 한정). 데스크톱은 항상 펼침이라 접힘 상태가 없다. */
   mobileOpen: boolean
   setMobileOpen: (v: boolean) => void
 }
@@ -21,11 +9,7 @@ interface SidebarCtx {
 const Ctx = createContext<SidebarCtx | null>(null)
 
 export function SidebarProvider({ children }: { children: ReactNode }) {
-  const [collapsed, setCollapsedStored] = useLocalStorage<boolean>('devbox-sidebar-collapsed', false)
   const [mobileOpen, setMobileOpen] = useState(false)
-
-  const setCollapsed = useCallback((v: boolean) => setCollapsedStored(v), [setCollapsedStored])
-  const toggleCollapsed = useCallback(() => setCollapsedStored((p) => !p), [setCollapsedStored])
 
   // Esc 로 모바일 드로어 닫기
   useEffect(() => {
@@ -37,11 +21,7 @@ export function SidebarProvider({ children }: { children: ReactNode }) {
     return () => window.removeEventListener('keydown', onKey)
   }, [mobileOpen])
 
-  return (
-    <Ctx.Provider value={{ collapsed, setCollapsed, toggleCollapsed, mobileOpen, setMobileOpen }}>
-      {children}
-    </Ctx.Provider>
-  )
+  return <Ctx.Provider value={{ mobileOpen, setMobileOpen }}>{children}</Ctx.Provider>
 }
 
 export function useSidebar(): SidebarCtx {

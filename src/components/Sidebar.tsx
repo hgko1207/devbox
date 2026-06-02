@@ -28,7 +28,7 @@ function group(list: ToolMeta[]): [string, ToolMeta[]][] {
 }
 
 export function Sidebar() {
-  const { collapsed, mobileOpen, setMobileOpen } = useSidebar()
+  const { mobileOpen, setMobileOpen } = useSidebar()
   const { favorites } = useFavorites()
   const location = useLocation()
 
@@ -60,18 +60,15 @@ export function Sidebar() {
       <aside
         aria-label="도구 목록"
         className={`
-          fixed inset-y-0 left-0 z-40 flex flex-col border-r border-zinc-200 bg-zinc-50/95 backdrop-blur
-          transition-transform duration-200
-          w-56
+          fixed inset-y-0 left-0 z-40 flex w-56 flex-col border-r border-zinc-200 bg-zinc-50/95
+          backdrop-blur transition-transform duration-200
           md:sticky md:top-14 md:inset-y-auto md:h-[calc(100vh-3.5rem)] md:translate-x-0
-          md:transition-[width]
-          ${collapsed ? 'md:w-14' : 'md:w-56'}
           ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}
           dark:border-zinc-800 dark:bg-zinc-950/95
         `}
       >
-        {/* 모바일: 상단 닫기 바 (데스크톱은 헤더에서 접기/펼치기 제어) */}
-        <div className="flex h-12 items-center justify-end gap-1 border-b border-zinc-200 px-2 md:hidden dark:border-zinc-800">
+        {/* 모바일 상단 닫기 바 */}
+        <div className="flex h-12 items-center justify-end border-b border-zinc-200 px-2 md:hidden dark:border-zinc-800">
           <button
             type="button"
             onClick={() => setMobileOpen(false)}
@@ -82,20 +79,22 @@ export function Sidebar() {
           </button>
         </div>
 
-        {/* 스크롤 영역 */}
         <nav className="flex-1 overflow-y-auto p-2">
           {favoriteTools.length > 0 && (
-            <Section title="즐겨찾기" titleIcon={<StarFilledIcon className="h-3 w-3 text-amber-500" />} collapsed={collapsed}>
+            <Section
+              title="즐겨찾기"
+              titleIcon={<StarFilledIcon className="h-3 w-3 text-amber-500" />}
+            >
               {favoriteTools.map((t) => (
-                <ToolRow key={`fav-${t.id}`} tool={t} collapsed={collapsed} />
+                <ToolRow key={`fav-${t.id}`} tool={t} />
               ))}
             </Section>
           )}
 
           {groups.map(([cat, list]) => (
-            <Section key={cat} title={cat} collapsed={collapsed}>
+            <Section key={cat} title={cat}>
               {list.map((t) => (
-                <ToolRow key={t.id} tool={t} collapsed={collapsed} />
+                <ToolRow key={t.id} tool={t} />
               ))}
             </Section>
           ))}
@@ -108,41 +107,29 @@ export function Sidebar() {
 function Section({
   title,
   titleIcon,
-  collapsed,
   children,
 }: {
   title: string
   titleIcon?: React.ReactNode
-  collapsed: boolean
   children: React.ReactNode
 }) {
   return (
     <div className="mb-3">
-      {/* 펼친 상태에서만 카테고리 헤더 표시 (접힌 데스크톱에선 숨김) */}
-      <div
-        className={`mb-1 flex items-center gap-1.5 px-2 text-[10px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 ${
-          collapsed ? 'md:hidden' : ''
-        }`}
-      >
+      <div className="mb-1 flex items-center gap-1.5 px-2 text-[10px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
         {titleIcon}
         {title}
       </div>
-      {/* 접힌 상태에서는 카테고리 사이 얇은 구분선 */}
-      {collapsed && (
-        <div className="mx-2 mb-1 hidden h-px bg-zinc-200 md:block dark:bg-zinc-800" aria-hidden="true" />
-      )}
       <div className="space-y-0.5">{children}</div>
     </div>
   )
 }
 
-function ToolRow({ tool, collapsed }: { tool: ToolMeta; collapsed: boolean }) {
+function ToolRow({ tool }: { tool: ToolMeta }) {
   const Icon = tool.icon
   return (
     <NavLink
       to={tool.path}
       end
-      title={collapsed ? tool.name : undefined}
       className={({ isActive }) =>
         `flex items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors ${
           isActive
@@ -152,7 +139,7 @@ function ToolRow({ tool, collapsed }: { tool: ToolMeta; collapsed: boolean }) {
       }
     >
       <Icon className="h-4 w-4 shrink-0" />
-      <span className={`truncate ${collapsed ? 'md:hidden' : ''}`}>{tool.name}</span>
+      <span className="truncate">{tool.name}</span>
     </NavLink>
   )
 }
