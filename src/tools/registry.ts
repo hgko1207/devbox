@@ -8,6 +8,11 @@ import { uuidTool } from './uuid/meta'
 import { hashTool } from './hash/meta'
 import { colorTool } from './color/meta'
 import { regexTool } from './regex/meta'
+import { yamlTool } from './yaml/meta'
+import { tsTypesTool } from './ts-types/meta'
+import { cronTool } from './cron/meta'
+import { caseTool } from './case/meta'
+import { textDiffTool } from './text-diff/meta'
 
 /**
  * 도구 등록소.
@@ -18,15 +23,24 @@ import { regexTool } from './regex/meta'
  * 그러면 홈 목록과 라우팅에 자동으로 반영된다.
  */
 export const tools: ToolMeta[] = [
+  // 데이터
   jsonTool,
+  yamlTool,
+  tsTypesTool,
+  // 인코딩 · 디코딩
   base64Tool,
   urlTool,
   jwtTool,
+  // 생성 · 계산
   timestampTool,
   uuidTool,
   hashTool,
+  cronTool,
+  // 유틸리티
   colorTool,
   regexTool,
+  caseTool,
+  textDiffTool,
 ]
 
 /** id·path 의 고유성과 형식을 검증한다 (개발 중 실수를 일찍 잡는다). */
