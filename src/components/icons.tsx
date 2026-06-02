@@ -274,3 +274,37 @@ export function XIcon(props: IconProps) {
     </Base>
   )
 }
+
+export function YamlIcon(props: IconProps) {
+  return (
+    <Base {...props}>
+      <path d="M4 6h2M8 6h12M4 12h2M8 12h12M4 18h2M8 18h12" />
+    </Base>
+  )
+}
+
+export function TypeIcon(props: IconProps) {
+  return (
+    <Base {...props}>
+      <path d="M4 6h16M12 6v14" />
+    </Base>
+  )
+}
+
+export function RepeatIcon(props: IconProps) {
+  return (
+    <Base {...props}>
+      <path d="m17 3 4 4-4 4M3 7h14a4 4 0 0 1 4 4v3" />
+      <path d="m7 21-4-4 4-4M21 17H7a4 4 0 0 1-4-4v-3" />
+    </Base>
+  )
+}
+
+export function CaseIcon(props: IconProps) {
+  return (
+    <Base {...props}>
+      <path d="M4 19 8 7l4 12M5.5 15h5" />
+      <path d="M15 12c0-2 1.5-2 3-2s3 0 3 2v7M15 17h6" />
+    </Base>
+  )
+}
