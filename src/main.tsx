@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { RouterProvider } from 'react-router-dom'
 import { router } from './router'
 import { ThemeProvider } from './lib/theme'
+import './fonts/pretendardvariable-dynamic-subset.css'
 import './index.css'
 
 const rootEl = document.getElementById('root')

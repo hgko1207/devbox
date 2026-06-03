@@ -2,14 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-/* 자체 호스팅 Pretendard (외부 요청 0, base 경로 안전 — Vite 가 해시·재배치) */
-@font-face {
-  font-family: 'Pretendard Variable';
-  font-weight: 45 920;
-  font-style: normal;
-  font-display: swap;
-  src: url('./fonts/PretendardVariable.woff2') format('woff2-variations');
-}
+/* Pretendard Variable 는 src/main.tsx 에서 자체 호스팅 동적 서브셋으로 로드한다.
+   - 92개 청크가 unicode-range 로 분리되어 있어, 브라우저는 화면에 실제로
+     나타난 문자가 포함된 청크만 다운로드한다 (Google Fonts 방식).
+   - 외부 요청 0, base 경로는 Vite 가 해시·재배치. */
 
 @layer base {
   :root {
