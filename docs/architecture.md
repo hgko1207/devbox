@@ -13,22 +13,22 @@ devbox가 왜 이렇게 만들어졌는지, 코드가 어떻게 나뉘어 있는
 ## 도구 상세
 
 ### 데이터
-- **[JSON 도구](https://hgko1207.github.io/devbox/json)** — 포맷·압축·유효성 검사(줄·열까지 한국어로),
+- **[JSON 도구](https://devbox.hgko.dev/json)** — 포맷·압축·유효성 검사(줄·열까지 한국어로),
   트리 뷰, 두 JSON 비교(diff). Web Worker 로 수 MB 입력도 즉시.
 
 ### 인코딩 · 디코딩
-- **[Base64](https://hgko1207.github.io/devbox/base64)** — 텍스트 ↔ Base64 (UTF-8 안전, URL-safe 옵션)
-- **[URL 인코드](https://hgko1207.github.io/devbox/url)** — `encodeURIComponent` / `decodeURIComponent`
-- **[JWT 디코더](https://hgko1207.github.io/devbox/jwt)** — 헤더·페이로드·시간 클레임 (서명 검증은 하지 않음)
+- **[Base64](https://devbox.hgko.dev/base64)** — 텍스트 ↔ Base64 (UTF-8 안전, URL-safe 옵션)
+- **[URL 인코드](https://devbox.hgko.dev/url)** — `encodeURIComponent` / `decodeURIComponent`
+- **[JWT 디코더](https://devbox.hgko.dev/jwt)** — 헤더·페이로드·시간 클레임 (서명 검증은 하지 않음)
 
 ### 생성 · 계산
-- **[타임스탬프 변환](https://hgko1207.github.io/devbox/timestamp)** — Unix ↔ 날짜 (초·밀리초 자동 감지)
-- **[UUID 생성](https://hgko1207.github.io/devbox/uuid)** — v4 (개수·대문자 옵션)
-- **[해시 생성](https://hgko1207.github.io/devbox/hash)** — SHA-1·256·384·512 (Web Crypto)
+- **[타임스탬프 변환](https://devbox.hgko.dev/timestamp)** — Unix ↔ 날짜 (초·밀리초 자동 감지)
+- **[UUID 생성](https://devbox.hgko.dev/uuid)** — v4 (개수·대문자 옵션)
+- **[해시 생성](https://devbox.hgko.dev/hash)** — SHA-1·256·384·512 (Web Crypto)
 
 ### 유틸리티
-- **[색상 변환](https://hgko1207.github.io/devbox/color)** — HEX ↔ RGB ↔ HSL + 미리보기
-- **[정규식 테스터](https://hgko1207.github.io/devbox/regex)** — 패턴/플래그, 매치 하이라이트, 캡처 그룹
+- **[색상 변환](https://devbox.hgko.dev/color)** — HEX ↔ RGB ↔ HSL + 미리보기
+- **[정규식 테스터](https://devbox.hgko.dev/regex)** — 패턴/플래그, 매치 하이라이트, 캡처 그룹
 
 ⌘K / Ctrl+K 로 어디서든 도구 점프.
 
@@ -82,8 +82,9 @@ variable woff2 를 **로컬에 번들**합니다 (`font-display: swap`). 외부 
 
 ### 6. CI 에 테스트 게이트
 
-`.github/workflows/deploy.yml` 은 **test → build → deploy** 순으로 실행됩니다.
-55개 단위 테스트가 통과하지 못하면 배포되지 않습니다. "검증된 정확함" 이 문서
+`npm run deploy` 는 **test → build → deploy** 순으로 실행됩니다.
+단위 테스트가 통과하지 못하면 배포되지 않습니다. `main` 푸시/PR 에서는
+`.github/workflows/check.yml` 이 같은 테스트와 빌드를 돌립니다. "검증된 정확함" 이 문서
 주장이 아니라 파이프라인이 강제하는 사실입니다.
 
 ## 아키텍처 (한눈에)
@@ -121,6 +122,10 @@ src/
 
 ## 배포 메모
 
-`main` 브랜치 푸시 → GitHub Actions 가 `test → build → deploy`. base 경로는
-저장소명(`/devbox/`)에 맞춰 자동. 딥링크 대응을 위해 `index.html` 을
-`404.html` 로 복사합니다.
+Cloudflare Workers 정적 자산으로 배포합니다(`wrangler.jsonc`, 주소 `devbox.hgko.dev`).
+2026-11 GitHub Pages(`hgko1207.github.io/devbox/`)에서 옮겼습니다.
+
+- 배포: 로컬 `main` 에서 `npm run deploy` (`wrangler login` 필요). 자동 배포는 쓰지 않습니다. CI 성공 ≠ 배포.
+- 딥링크 새로고침은 `not_found_handling: single-page-application` 으로 `index.html` 을 돌려줍니다.
+- DNS·인증서는 `routes` 의 `custom_domain` 으로 자동 생성됩니다. 레코드를 직접 넣지 않습니다.
+- 루트 도메인 `hgko.dev` 는 hgko-dev 허브 몫이라 devbox 는 서브도메인을 씁니다.

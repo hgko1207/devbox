@@ -1,0 +1,14 @@
+{
+  // 정적 자산만 올리는 Worker (Cloudflare Pages의 후속 방식). 스크립트 없음.
+  "name": "devbox",
+  "compatibility_date": "2026-11-13",
+  // custom_domain 이라 배포하면 DNS 레코드와 인증서가 자동으로 만들어진다.
+  "routes": [{ "pattern": "devbox.hgko.dev", "custom_domain": true }],
+  // routes가 있으면 workers.dev 주소가 꺼질 수 있어 명시한다.
+  "workers_dev": true,
+  "assets": {
+    "directory": "./dist",
+    // React Router 딥링크(/json 등) 새로고침 대응: 없는 경로는 index.html 로 응답
+    "not_found_handling": "single-page-application"
+  }
+}

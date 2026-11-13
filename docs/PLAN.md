@@ -28,7 +28,7 @@ it-tools, DevToys, bestdev.tools 등 **폭넓은 영문 도구 모음**이 다�
 
 ## Constraints
 
-- 100% 클라이언트 처리, 백엔드 없음, GitHub Pages 정적 배포.
+- 100% 클라이언트 처리, 백엔드 없음, 정적 배포(Cloudflare Workers 정적 자산, 2026-11 GitHub Pages에서 이전).
 - 추적·광고·회원가입 없음, 외부 요청 0(시스템 폰트 사용).
 - 스택 고정: React + TS + Vite + Tailwind. 도구 레지스트리 기반 자동 라우팅/홈 구조 유지.
 - 솔로 개발 · 시간 제약 → "폭으로 100개"는 비현실적이며 전략적으로도 비추천.
@@ -117,8 +117,8 @@ A가 B의 "팔레트에 담을 항목"과 C의 "간판이 묻히지 않을 맥�
 
 ## Distribution Plan
 
-- GitHub Pages — 배포 워크플로는 작성 완료(`.github/workflows/deploy.yml`). gh 토큰에
-  `workflow` 스코프 추가 후 활성화 필요. 배포 URL: `https://hgko1207.github.io/devbox/`.
+- Cloudflare Workers 정적 자산 — `wrangler.jsonc`, 로컬 `npm run deploy`. 배포 URL: `https://devbox.hgko.dev/`.
+  (2026-11 GitHub Pages `hgko1207.github.io/devbox/` 에서 이전)
 - (PWA 게이트를 통과하기로 결정할 경우) PWA(installable) 추가 시 "오프라인 설치형 도구"로
   배포 스토리 강화. ※ PWA는 B에 자동 포함이 아니라 Open Questions의 별도 게이트.
 - (선택) 한국어 검색 유입용 도구별 메타/OG 태그 + sitemap.
