@@ -124,6 +124,8 @@ src/
 
 Cloudflare Workers 정적 자산으로 배포합니다(`wrangler.jsonc`, 주소 `devbox.hgko.dev`).
 2026-11 GitHub Pages(`hgko1207.github.io/devbox/`)에서 옮겼습니다.
+예전 주소는 `.github/pages-redirect/` 페이지가 같은 경로의 새 주소로 넘겨줍니다
+(`.github/workflows/pages-redirect.yml`, 그 폴더를 고칠 때만 GitHub Pages에 다시 올라감).
 
 - 배포: 로컬 `main` 에서 `npm run deploy` (`wrangler login` 필요). 자동 배포는 쓰지 않습니다. CI 성공 ≠ 배포.
 - 딥링크 새로고침은 `not_found_handling: single-page-application` 으로 `index.html` 을 돌려줍니다.

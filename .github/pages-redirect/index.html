@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>devbox — 주소가 바뀌었습니다</title>
+  <meta name="robots" content="noindex" />
+  <link rel="canonical" href="https://devbox.hgko.dev/" />
+  <script>
+    // hgko1207.github.io/devbox/<경로> → devbox.hgko.dev/<경로> (쿼리·해시 유지)
+    (function () {
+      var path = location.pathname.replace(/^\/devbox(?=\/|$)/, '') || '/'
+      location.replace('https://devbox.hgko.dev' + path + location.search + location.hash)
+    })()
+  </script>
+  <noscript><meta http-equiv="refresh" content="0; url=https://devbox.hgko.dev/" /></noscript>
+  <style>
+    body { font-family: system-ui, sans-serif; display: grid; place-items: center; min-height: 100vh; margin: 0; padding: 0 16px; color: #18181b; background: #fff; }
+    @media (prefers-color-scheme: dark) { body { color: #e4e4e7; background: #09090b; } a { color: #93c5fd; } }
+  </style>
+</head>
+<body>
+  <p>devbox는 <a href="https://devbox.hgko.dev/">devbox.hgko.dev</a> 로 옮겼습니다.</p>
+</body>
+</html>

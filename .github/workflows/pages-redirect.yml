@@ -1,0 +1,32 @@
+name: Pages redirect
+
+# 예전 주소 hgko1207.github.io/devbox/* 를 devbox.hgko.dev/* 로 넘기는 페이지만 GitHub Pages에 올린다.
+# 사이트 본체는 Cloudflare Workers(npm run deploy). 리다이렉트 페이지를 고칠 때만 다시 돈다.
+on:
+  push:
+    branches: [main]
+    paths: ['.github/pages-redirect/**']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .github/pages-redirect
+      - id: deployment
+        uses: actions/deploy-pages@v4
